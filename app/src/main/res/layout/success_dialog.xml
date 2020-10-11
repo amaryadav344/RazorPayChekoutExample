@@ -21,13 +21,13 @@
         android:src="@drawable/ic_check_circle_black_24dp" />
 
     <TextView
-        android:id="@+id/textViewOk"
-        android:layout_gravity="center"
+        android:id="@+id/textViewGoHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:text="Ok" />
+        android:padding="16dp"
+        android:text="Go Home"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 </LinearLayout>

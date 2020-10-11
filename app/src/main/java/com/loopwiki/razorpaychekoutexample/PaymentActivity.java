@@ -159,8 +159,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     public void onPaymentSuccess(String razorpayPaymentID) {
         try {
             Dialog dialog = Helper.getSuccessDialog(this);
-            TextView textViewOk = dialog.findViewById(R.id.textViewOk);
-            textViewOk.setOnClickListener(v -> {
+            TextView textViewGoHome = dialog.findViewById(R.id.textViewGoHome);
+            textViewGoHome.setOnClickListener(v -> {
                 dialog.dismiss();
                 clearCart();
                 cartCount = 0;

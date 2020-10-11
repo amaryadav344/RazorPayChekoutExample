@@ -1,0 +1,95 @@
+package com.loopwiki.razorpaychekoutexample;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
+public class CartFragment extends Fragment implements CartAdapter.CartCallbacks {
+    @BindView(R.id.recyclerViewCart)
+    RecyclerView recyclerViewCart;
+    @BindView(R.id.buttonPay)
+    Button buttonPay;
+
+    private CartInteractionListener mListener;
+    List<Product> products;
+
+    View view;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (view != null) {
+            return view;
+        }
+        view = inflater.inflate(R.layout.fragment_cart, container, false);
+        ButterKnife.bind(this, view);
+        recyclerViewCart.setLayoutManager(new LinearLayoutManager(getContext()));
+        CartAdapter cartAdapter = new CartAdapter();
+        cartAdapter.setCartCallbacks(this);
+        cartAdapter.setProducts(products);
+        recyclerViewCart.setAdapter(cartAdapter);
+        recyclerViewCart.addItemDecoration(new LinearSpacingDecoration(20));
+
+        buttonPay.setText("Proceed to Pay ₹" + getTotal(products));
+        buttonPay.setOnClickListener(v -> {
+            mListener.ProceedToPay(getTotal(products));
+        });
+        return view;
+    }
+
+    public int getTotal(List<Product> products) {
+        int TotalPrice = 0;
+        for (Product product : products) {
+            TotalPrice = TotalPrice + product.getPrice();
+        }
+        return TotalPrice;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CartInteractionListener) {
+            mListener = (CartInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement CartInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void RemoveProduct(Product product) {
+        mListener.RemoveProduct(product);
+        buttonPay.setText("Proceed to Pay ₹" + getTotal(products));
+        if (products.size() == 0) {
+            buttonPay.setVisibility(View.GONE);
+        } else {
+            buttonPay.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    public interface CartInteractionListener {
+        public void RemoveProduct(Product product);
+
+        public void ProceedToPay(int TotalPrice);
+    }
+}

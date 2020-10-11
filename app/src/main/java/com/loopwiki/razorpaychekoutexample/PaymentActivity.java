@@ -164,7 +164,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 dialog.dismiss();
                 clearCart();
                 cartCount = 0;
-                textViewCartCount.setText("");
+                textViewCartCount.setVisibility(View.GONE);
                 fragmentManager.beginTransaction().replace(R.id.main_content, productsFragment).commit();
             });
             dialog.show();

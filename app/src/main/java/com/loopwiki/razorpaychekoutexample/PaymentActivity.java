@@ -1,6 +1,7 @@
 package com.loopwiki.razorpaychekoutexample;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -157,6 +158,16 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     @Override
     public void onPaymentSuccess(String razorpayPaymentID) {
         try {
+            Dialog dialog = Helper.getSuccessDialog(this);
+            TextView textViewOk = dialog.findViewById(R.id.textViewOk);
+            textViewOk.setOnClickListener(v -> {
+                dialog.dismiss();
+                clearCart();
+                cartCount = 0;
+                textViewCartCount.setText("");
+                fragmentManager.beginTransaction().replace(R.id.main_content, productsFragment).commit();
+            });
+            dialog.show();
             Toast.makeText(this, "Payment Successful: " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e(TAG, "Exception in onPaymentSuccess", e);
@@ -189,5 +200,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     @Override
     public void ProceedToPay(int TotalPrice) {
         RazorPayCheckout(TotalPrice);
+    }
+
+    public void clearCart() {
+        for (Product product : products) {
+            if (product.isAddedToCart()) {
+                product.setAddedToCart(false);
+            }
+        }
     }
 }

@@ -33,11 +33,17 @@ public class ProductsFragment extends Fragment implements ProductAdapter.Product
         // Required empty public constructor
     }
 
+    public static ProductsFragment newInstance() {
+        ProductsFragment fragment = new ProductsFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -65,14 +71,6 @@ public class ProductsFragment extends Fragment implements ProductAdapter.Product
                     + " must implement ProductInteractionListener");
         }
     }
-
-    /*@Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        recyclerViewProducts.setAdapter(null);
-        productAdapter = null;
-        recyclerViewProducts = null;
-    }*/
 
     @Override
     public void onDetach() {

@@ -35,7 +35,6 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     @BindView(R.id.imageViewCart)
     ImageView imageViewCart;
     List<Product> products;
-    Stack<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +42,8 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Checkout.preload(getApplicationContext());
-        fragments = new Stack<>();
         fragmentManager = getSupportFragmentManager();
-        productsFragment = new ProductsFragment();
+        productsFragment = ProductsFragment.newInstance();
         products = getProducts();
         productsFragment.products = products;
         fragmentManager.beginTransaction().replace(R.id.main_content, productsFragment).commit();
@@ -58,8 +56,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 }
             }
             cartFragment.products = productList;
-            fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).commit();
-            fragments.add(productsFragment);
+            fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).addToBackStack(null).commit();
         });
 
     }
@@ -111,10 +108,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     @Override
     public void onBackPressed() {
-        if (fragments.isEmpty()) {
+        if (fragmentManager.getBackStackEntryCount() == 0) {
             super.onBackPressed();
         } else {
-            fragmentManager.beginTransaction().replace(R.id.main_content, fragments.pop()).commit();
+            fragmentManager.popBackStackImmediate();
         }
 
     }

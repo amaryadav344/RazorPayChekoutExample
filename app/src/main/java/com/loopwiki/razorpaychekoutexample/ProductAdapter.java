@@ -15,19 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProductAdapter extends RecyclerView.Adapter {
     private List<Product> products;
-    ProductAdapterCallBack productAdapterCallBack;
+    private ProductAdapterCallBack productAdapterCallBack;
 
-    public void setProducts(List<Product> products) {
+    void setProducts(List<Product> products) {
         this.products = products;
     }
 
-    public void setProductAdapterCallBack(ProductAdapterCallBack productAdapterCallBack) {
+    void setProductAdapterCallBack(ProductAdapterCallBack productAdapterCallBack) {
         this.productAdapterCallBack = productAdapterCallBack;
     }
 
@@ -35,8 +36,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.product, parent, false);
-        ProductHolder productHolder = new ProductHolder(row);
-        return productHolder;
+        return new ProductHolder(row);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
         Product currentProduct = products.get(position);
         ProductHolder productHolder = (ProductHolder) holder;
         productHolder.textViewProductName.setText(currentProduct.getName());
-        productHolder.textViewProductPrice.setText("₹" + currentProduct.getPrice());
+        productHolder.textViewProductPrice.setText(String.format(Locale.US,"%s%d", holder.itemView.getContext().getString(R.string.ruppi_symbol), currentProduct.getPrice()));
         Picasso.get().load(currentProduct.getImageURL()).into(productHolder.imageViewProduct);
         if (currentProduct.isAddedToCart()) {
             productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), android.R.color.holo_purple), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -58,7 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
         return products.size();
     }
 
-    public class ProductHolder extends RecyclerView.ViewHolder {
+    class ProductHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageViewProduct)
         ImageView imageViewProduct;
         @BindView(R.id.textViewProductName)
@@ -69,7 +69,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
         ImageButton imageButtonAddToCart;
 
 
-        public ProductHolder(@NonNull View itemView) {
+        ProductHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             imageButtonAddToCart.setOnClickListener(v -> {

@@ -1,9 +1,7 @@
 package com.loopwiki.razorpaychekoutexample;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,11 +17,10 @@ import butterknife.ButterKnife;
 
 
 public class ProductsFragment extends Fragment implements ProductAdapter.ProductAdapterCallBack {
-
+    static final String TAG = ProductsFragment.class.getSimpleName();
     private ProductInteractionListener mListener;
 
     List<Product> products;
-    ProductAdapter productAdapter;
 
     @BindView(R.id.recyclerViewProducts)
     RecyclerView recyclerViewProducts;
@@ -33,7 +29,7 @@ public class ProductsFragment extends Fragment implements ProductAdapter.Product
         // Required empty public constructor
     }
 
-    public static ProductsFragment newInstance() {
+    static ProductsFragment newInstance() {
         ProductsFragment fragment = new ProductsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -51,7 +47,7 @@ public class ProductsFragment extends Fragment implements ProductAdapter.Product
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
         ButterKnife.bind(this, view);
-        productAdapter = new ProductAdapter();
+        ProductAdapter productAdapter = new ProductAdapter();
         productAdapter.setProductAdapterCallBack(this);
         productAdapter.setProducts(products);
         recyclerViewProducts.setLayoutManager(new GridLayoutManager(getActivity(), 2));

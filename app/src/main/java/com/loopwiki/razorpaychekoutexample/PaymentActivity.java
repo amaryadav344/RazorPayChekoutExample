@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.razorpay.Checkout;
@@ -20,7 +19,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,20 +54,21 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
                 }
             }
             cartFragment.products = productList;
-            fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_content, cartFragment).addToBackStack(ProductsFragment.TAG).commit();
         });
 
     }
 
-
+    // Callback from Products fragment when product is added
     @Override
     public void ProductAddedToCart(Product product) {
         cartCount++;
         textViewCartCount.setVisibility(View.VISIBLE);
         textViewCartCount.setText(String.valueOf(cartCount));
-        Toast.makeText(this, "Product Added to Cart", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.product_added), Toast.LENGTH_SHORT).show();
     }
 
+    // Callback from Products fragment when product is removed
     @Override
     public void ProductRemovedFromCart(Product product) {
         cartCount--;
@@ -77,10 +76,10 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         if (cartCount == 0) {
             textViewCartCount.setVisibility(View.GONE);
         }
-        Toast.makeText(this, "Product Removed from Cart", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.product_removed), Toast.LENGTH_SHORT).show();
     }
 
-
+    // method to create dummy product
     private List<Product> getProducts() {
         List<Product> products = new ArrayList<>();
         String[] ImageUrl = {"http://www.loopwiki.com/wp-content/uploads/2020/10/2e59b5b1-0397-4035-bdfd-5c4de10baaa41565334934936-Biba-Women-Red-Off-White-Self-Design-Kurta-with-Palazzos-D-1.jpg",
@@ -106,6 +105,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     }
 
+    // Back button press method
     @Override
     public void onBackPressed() {
         if (fragmentManager.getBackStackEntryCount() == 0) {
@@ -116,6 +116,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
 
     }
 
+    // this method calls our payment gateway
     public void RazorPayCheckout(int Amount) {
          /*
           You need to pass current activity in order to let Razorpay create CheckoutActivity
@@ -128,11 +129,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
             JSONObject options = new JSONObject();
             options.put("name", "Razorpay Corp");
             options.put("description", "Demoing Charges");// You can omit the image option to fetch the image from dashboard
+            // set image of you brand
             // options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
             options.put("currency", "INR");
             options.put("amount", Amount * 100);
 
             JSONObject preFill = new JSONObject();
+            // Preset email and phone
             // preFill.put("email", "test@razorpay.com");
             // preFill.put("contact", "123456789");
 
@@ -186,6 +189,7 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         }
     }
 
+    // Method called when product is removed from cart
     @Override
     public void RemoveProduct(Product product) {
         int index = this.products.indexOf(product);
@@ -194,11 +198,13 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
         ProductRemovedFromCart(product);
     }
 
+    // Method is called when we click on Pay button
     @Override
     public void ProceedToPay(int TotalPrice) {
         RazorPayCheckout(TotalPrice);
     }
 
+    // method to clear cart
     public void clearCart() {
         for (Product product : products) {
             if (product.isAddedToCart()) {

@@ -13,16 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CartAdapter extends RecyclerView.Adapter {
+    // List of products that are added to cart
     private List<Product> products;
-    CartCallbacks cartCallbacks;
-
-    public static final int ITEM_TYPE_PRODUCT = 1;
-    public static final int ITEM_TYPE_EMPTY = 0;
+    private CartCallbacks cartCallbacks;
+    // 1) ITEM_TYPE_PRODUCT - Product will be shown
+    // 2) ITEM_TYPE_EMPTY - When cart will be empty it will show this cart is empty layout
+    private static final int ITEM_TYPE_PRODUCT = 1;
+    private static final int ITEM_TYPE_EMPTY = 0;
 
 
     public void setCartCallbacks(CartCallbacks cartCallbacks) {
@@ -55,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             CartItemHolder productHolder = (CartItemHolder) holder;
             productHolder.textViewProductName.setText(currentProduct.getName());
             Picasso.get().load(currentProduct.getImageURL()).into(productHolder.imageViewProduct);
-            productHolder.textViewProductPrice.setText("₹" + currentProduct.getPrice());
+            productHolder.textViewProductPrice.setText(String.format(Locale.US,"%s%d", holder.itemView.getContext().getString(R.string.ruppi_symbol), currentProduct.getPrice()));
         }
     }
 
@@ -69,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter {
         return products.size() == 0 ? ITEM_TYPE_EMPTY : ITEM_TYPE_PRODUCT;
     }
 
-    public class CartItemHolder extends RecyclerView.ViewHolder {
+    class CartItemHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageViewProduct)
         ImageView imageViewProduct;
         @BindView(R.id.textViewProductName)
@@ -79,7 +82,7 @@ public class CartAdapter extends RecyclerView.Adapter {
         @BindView(R.id.ImageButtonDelete)
         ImageButton ImageButtonDelete;
 
-        public CartItemHolder(@NonNull View itemView) {
+        CartItemHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             ImageButtonDelete.setOnClickListener(v -> {
@@ -94,12 +97,12 @@ public class CartAdapter extends RecyclerView.Adapter {
     }
 
     public class EmptyCartHolder extends RecyclerView.ViewHolder {
-        public EmptyCartHolder(@NonNull View itemView) {
+        EmptyCartHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
     public interface CartCallbacks {
-        public void RemoveProduct(Product product);
+        void RemoveProduct(Product product);
     }
 }

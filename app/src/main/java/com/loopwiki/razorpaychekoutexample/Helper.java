@@ -2,16 +2,12 @@ package com.loopwiki.razorpaychekoutexample;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-public class Helper {
+class Helper {
 
-    public static Dialog getSuccessDialog(Activity activity) {
+    static Dialog getSuccessDialog(Activity activity) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);

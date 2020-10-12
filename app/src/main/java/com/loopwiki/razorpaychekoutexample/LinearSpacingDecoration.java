@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class LinearSpacingDecoration extends RecyclerView.ItemDecoration {
-    int space;
+    private int space;
 
-    public LinearSpacingDecoration(int space) {
+    LinearSpacingDecoration(int space) {
         this.space = space;
     }
 

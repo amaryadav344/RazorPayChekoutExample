@@ -7,19 +7,19 @@ public class Product {
     private boolean isNew;
     private boolean isAddedToCart;
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public int getPrice() {
+    int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+     void setPrice(int price) {
         this.price = price;
     }
 
@@ -31,19 +31,19 @@ public class Product {
         isNew = aNew;
     }
 
-    public boolean isAddedToCart() {
+     boolean isAddedToCart() {
         return isAddedToCart;
     }
 
-    public void setAddedToCart(boolean addedToCart) {
+     void setAddedToCart(boolean addedToCart) {
         isAddedToCart = addedToCart;
     }
 
-    public String getImageURL() {
+     String getImageURL() {
         return ImageURL;
     }
 
-    public void setImageURL(String imageURL) {
+     void setImageURL(String imageURL) {
         ImageURL = imageURL;
     }
 }

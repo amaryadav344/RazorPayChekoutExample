@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +31,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartCallbacks 
     View view;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (view != null) {
             return view;
@@ -43,14 +45,14 @@ public class CartFragment extends Fragment implements CartAdapter.CartCallbacks 
         recyclerViewCart.setAdapter(cartAdapter);
         recyclerViewCart.addItemDecoration(new LinearSpacingDecoration(20));
 
-        buttonPay.setText("Proceed to Pay ₹" + getTotal(products));
+        buttonPay.setText(String.format(Locale.US, "Proceed to Pay %s%d", getActivity().getString(R.string.ruppi_symbol), getTotal(products)));
         buttonPay.setOnClickListener(v -> {
             mListener.ProceedToPay(getTotal(products));
         });
         return view;
     }
 
-    public int getTotal(List<Product> products) {
+    private int getTotal(List<Product> products) {
         int TotalPrice = 0;
         for (Product product : products) {
             TotalPrice = TotalPrice + product.getPrice();
@@ -78,7 +80,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartCallbacks 
     @Override
     public void RemoveProduct(Product product) {
         mListener.RemoveProduct(product);
-        buttonPay.setText("Proceed to Pay ₹" + getTotal(products));
+        buttonPay.setText(String.format(Locale.US, "Proceed to Pay %s%d", getActivity().getString(R.string.ruppi_symbol), getTotal(products)));
         if (products.size() == 0) {
             buttonPay.setVisibility(View.GONE);
         } else {
@@ -88,8 +90,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartCallbacks 
 
 
     public interface CartInteractionListener {
-        public void RemoveProduct(Product product);
+        void RemoveProduct(Product product);
 
-        public void ProceedToPay(int TotalPrice);
+        void ProceedToPay(int TotalPrice);
     }
 }

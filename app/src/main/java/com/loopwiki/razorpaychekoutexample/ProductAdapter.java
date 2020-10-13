@@ -47,7 +47,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
         productHolder.textViewProductPrice.setText(String.format(Locale.US,"%s%d", holder.itemView.getContext().getString(R.string.ruppi_symbol), currentProduct.getPrice()));
         Picasso.get().load(currentProduct.getImageURL()).into(productHolder.imageViewProduct);
         if (currentProduct.isAddedToCart()) {
-            productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), android.R.color.holo_purple), android.graphics.PorterDuff.Mode.SRC_IN);
+            productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
         } else {
             productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), android.R.color.tertiary_text_light), PorterDuff.Mode.SRC_IN);
         }
@@ -80,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     product.setAddedToCart(false);
                 } else {
                     productAdapterCallBack.ProductAddedToCart(product);
-                    imageButtonAddToCart.setColorFilter(ContextCompat.getColor(v.getContext(), android.R.color.holo_purple), PorterDuff.Mode.SRC_IN);
+                    imageButtonAddToCart.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
                     product.setAddedToCart(true);
                 }
 

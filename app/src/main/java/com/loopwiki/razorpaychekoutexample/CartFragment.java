@@ -49,6 +49,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartCallbacks 
         buttonPay.setOnClickListener(v -> {
             mListener.ProceedToPay(getTotal(products));
         });
+        setPayButtonVisibility();
         return view;
     }
 
@@ -81,11 +82,16 @@ public class CartFragment extends Fragment implements CartAdapter.CartCallbacks 
     public void RemoveProduct(Product product) {
         mListener.RemoveProduct(product);
         buttonPay.setText(String.format(Locale.US, "Proceed to Pay %s%d", getActivity().getString(R.string.ruppi_symbol), getTotal(products)));
+        setPayButtonVisibility();
+    }
+
+    public void setPayButtonVisibility() {
         if (products.size() == 0) {
             buttonPay.setVisibility(View.GONE);
         } else {
             buttonPay.setVisibility(View.VISIBLE);
         }
+
     }
 
 

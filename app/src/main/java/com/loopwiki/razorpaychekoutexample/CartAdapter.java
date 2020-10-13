@@ -1,5 +1,6 @@
 package com.loopwiki.razorpaychekoutexample;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
@@ -57,7 +56,8 @@ public class CartAdapter extends RecyclerView.Adapter {
             Product currentProduct = products.get(position);
             CartItemHolder productHolder = (CartItemHolder) holder;
             productHolder.textViewProductName.setText(currentProduct.getName());
-            Picasso.get().load(currentProduct.getImageURL()).into(productHolder.imageViewProduct);
+            Drawable image = holder.itemView.getContext().getResources().getDrawable(currentProduct.getImageResourceId());
+            productHolder.imageViewProduct.setImageDrawable(image);
             productHolder.textViewProductPrice.setText(String.format(Locale.US,"%s%d", holder.itemView.getContext().getString(R.string.ruppi_symbol), currentProduct.getPrice()));
         }
     }

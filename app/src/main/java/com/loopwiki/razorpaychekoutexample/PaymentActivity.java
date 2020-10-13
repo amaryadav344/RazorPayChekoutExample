@@ -82,21 +82,14 @@ public class PaymentActivity extends AppCompatActivity implements PaymentResultL
     // method to create dummy product
     private List<Product> getProducts() {
         List<Product> products = new ArrayList<>();
-        String[] ImageUrl = {"http://www.loopwiki.com/wp-content/uploads/2020/10/2e59b5b1-0397-4035-bdfd-5c4de10baaa41565334934936-Biba-Women-Red-Off-White-Self-Design-Kurta-with-Palazzos-D-1.jpg",
-                "http://www.loopwiki.com/wp-content/uploads/2020/10/74076745-e286-46ff-9cd4-a7f4bab6a8941565943573250-Biba-Women-Navy-Blue-Embroidered-Straight-Kurta-658156594357-1.jpg",
-                "http://www.loopwiki.com/wp-content/uploads/2020/10/11512457154814-HIGHLANDER-Men-Navy-White-Slim-Fit-Checked-Casual-Shirt-5541512457154505-1.jpg",
-                "http://www.loopwiki.com/wp-content/uploads/2020/10/a9d4a7aa-af7e-4a37-a9d4-a94dc8c057e81566992341974-WROGN-Navy-Blue-Slim-Fit-Checked-Casual-Shirt-52415669923403-1.jpg",
-                "http://www.loopwiki.com/wp-content/uploads/2020/10/0bad7752-d637-4be3-9ebc-6a601f562e191559812909206-1.jpg",
-                "http://www.loopwiki.com/wp-content/uploads/2020/10/2bb95c43-4f0c-4792-bb52-d4ffbfdc6dc31567768077618-Biba-Women-Dresses-3161567768075818-1.jpg"
-
-        };
+        int[] ImageUrl = {R.drawable.one, R.drawable.two, R.drawable.three, R.drawable.four, R.drawable.five, R.drawable.six};
         String[] Title = {"HRX by Hrithik", "Crew STREET", "Royal Enfield", "Kook N Keech", "ADIDAS", "UNDER ARMOUR"};
         int[] Price = {5000, 2000, 1500, 3000, 1256, 700};
         boolean[] IsNew = {true, false, false, true, true, false};
         for (int i = 0; i < ImageUrl.length; i++) {
             Product product = new Product();
             product.setName(Title[i]);
-            product.setImageURL(ImageUrl[i]);
+            product.setImageResourceId(ImageUrl[i]);
             product.setNew(IsNew[i]);
             product.setPrice(Price[i]);
             products.add(product);

@@ -3,7 +3,7 @@ package com.loopwiki.razorpaychekoutexample;
 public class Product {
     private String name;
     private int price;
-    private String ImageURL;
+    private int ImageResourceId;
     private boolean isNew;
     private boolean isAddedToCart;
 
@@ -39,11 +39,11 @@ public class Product {
         isAddedToCart = addedToCart;
     }
 
-     String getImageURL() {
-        return ImageURL;
+    int getImageResourceId() {
+        return ImageResourceId;
     }
 
-     void setImageURL(String imageURL) {
-        ImageURL = imageURL;
+     void setImageResourceId(int imageResourceId) {
+        ImageResourceId = imageResourceId;
     }
 }

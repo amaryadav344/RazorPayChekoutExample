@@ -1,6 +1,7 @@
 package com.loopwiki.razorpaychekoutexample;
 
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Locale;
@@ -44,12 +43,19 @@ public class ProductAdapter extends RecyclerView.Adapter {
         Product currentProduct = products.get(position);
         ProductHolder productHolder = (ProductHolder) holder;
         productHolder.textViewProductName.setText(currentProduct.getName());
-        productHolder.textViewProductPrice.setText(String.format(Locale.US,"%s%d", holder.itemView.getContext().getString(R.string.ruppi_symbol), currentProduct.getPrice()));
-        Picasso.get().load(currentProduct.getImageURL()).into(productHolder.imageViewProduct);
+        productHolder.textViewProductPrice.setText(String.format(Locale.US, "%s%d", holder.itemView.getContext().getString(R.string.ruppi_symbol), currentProduct.getPrice()));
+
+        Drawable image = holder.itemView.getContext().getResources().getDrawable(currentProduct.getImageResourceId());
+        productHolder.imageViewProduct.setImageDrawable(image);
         if (currentProduct.isAddedToCart()) {
-            productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+            productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         } else {
             productHolder.imageButtonAddToCart.setColorFilter(ContextCompat.getColor(productHolder.itemView.getContext(), android.R.color.tertiary_text_light), PorterDuff.Mode.SRC_IN);
+        }
+        if (currentProduct.isNew()) {
+            productHolder.ImageViewNew.setVisibility(View.VISIBLE);
+        } else {
+            productHolder.ImageViewNew.setVisibility(View.GONE);
         }
     }
 
@@ -67,6 +73,8 @@ public class ProductAdapter extends RecyclerView.Adapter {
         TextView textViewProductPrice;
         @BindView(R.id.imageButtonAddToCart)
         ImageButton imageButtonAddToCart;
+        @BindView(R.id.ImageViewNew)
+        ImageView ImageViewNew;
 
 
         ProductHolder(@NonNull View itemView) {
@@ -80,7 +88,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     product.setAddedToCart(false);
                 } else {
                     productAdapterCallBack.ProductAddedToCart(product);
-                    imageButtonAddToCart.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    imageButtonAddToCart.setColorFilter(ContextCompat.getColor(v.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
                     product.setAddedToCart(true);
                 }
 

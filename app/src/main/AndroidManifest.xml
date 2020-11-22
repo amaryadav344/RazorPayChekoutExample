@@ -21,7 +21,7 @@
         </activity>
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_i0wrWn7NOKoh7I" />
+            android:value="Your API key" />
 
     </application>
 

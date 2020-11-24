@@ -1,4 +1,4 @@
-# Razor Pay Chekout Example
+# Razorpay Chekout Example
 This is RazorPay checkout example for android. 
 ![](https://www.loopwiki.com/wp-content/uploads/2020/11/Shopping-home-screen.jpg)  |  ![](http://www.loopwiki.com/wp-content/uploads/2020/11/Shooping-cart-screen.png)
 :-------------------------:|:-------------------------:
